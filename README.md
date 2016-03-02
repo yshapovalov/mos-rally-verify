@@ -3,9 +3,10 @@ MOS-RALLY-VERIFY
 Steps:
 
 1. Clone repo to fuel
-2. If you have env with rados_gw and ssl run fix_rados_ssl.sh (https://bugs.launchpad.net/fuel/+bug/1549328)
-3. Run prepare_env.sh
-4. Run install_tempest.sh
+2. If you neeed fix openrc file(add v2.0) run fix_v2.sh
+3. If you have env with rados_gw and ssl run fix_rados_ssl.sh (https://bugs.launchpad.net/fuel/+bug/1549328)
+4. Run prepare_env.sh
+5. Run install_tempest.sh
 
 Done
 
