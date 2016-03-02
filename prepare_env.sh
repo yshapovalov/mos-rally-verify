@@ -1,15 +1,6 @@
 #!/bin/bash -xe
 CONTROLLER_ID="$(fuel node | grep controller| awk '{print$1}'| head -1)"
 echo $CONTROLLER_ID
-echo "Fix openrc file (add v2.0)"
-need_fix_v2="$(ssh node-${CONTROLLER_ID} cat openrc |grep v2.0)"
-if [ "${need_fix_v2}" ]; then
-    echo openrc file already fixed!
-else
-    cmd="sed -i 's|:5000|:5000/v2.0|g' /root/openrc"
-    for n in $(fuel node | grep controller| awk '{print$1}'); do ssh node-"$n" "$cmd"; done
-fi
-
 CONTAINER_MOUNT_HOME_DIR="${CONTAINER_MOUNT_HOME_DIR:-/var/lib/rally-container-home-dir}"
 CONTROLLER_PROXY_PORT="8888"
 KEYSTONE_API_VERSION="v2.0"
