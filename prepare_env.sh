@@ -31,7 +31,7 @@ if [ "${IS_TLS}" ]; then
     echo "export OS_CACERT='/home/rally/$(basename ${CACERT_FILE_PATH})'" >> ${CONTAINER_MOUNT_HOME_DIR}/openrc
 fi
 
-echo "sed -i 's|#swift_operator_role = Member|swift_operator_role=SwiftOperator|g' /etc/rally/rally.conf
+echo "sed -i 's|#swift_operator_role = Member|swift_operator_role = SwiftOperator|g' /etc/rally/rally.conf
       source /home/rally/openrc
       git clone https://github.com/openstack/tempest.git /home/rally/tempest
       rally-manage db recreate
