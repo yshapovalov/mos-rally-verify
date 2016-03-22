@@ -42,6 +42,7 @@ echo "sed -i 's|#swift_operator_role = Member|swift_operator_role = SwiftOperato
 
 chmod +x ${CONTAINER_MOUNT_HOME_DIR}/install_tempest.sh
 
+service docker start
 docker pull rallyforge/rally:0.3.1
 image_id=$(docker images | grep 0.3.1| awk '{print $3}')
 docker run --net host -v /var/lib/rally-container-home-dir/:/home/rally -ti -u root $image_id
