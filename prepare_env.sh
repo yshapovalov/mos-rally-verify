@@ -1,6 +1,7 @@
 #!/bin/bash -xe
 CACERT_FILE_PATH="/var/lib/astute/haproxy/public_haproxy.pem"
-IS_TLS=$(source openrc; keystone catalog --service identity 2>/dev/null | awk '/https/')
+IS_TLS=$(source /root/openrc; keystone catalog --service identity 2>/dev/null | awk '/https/')
+i
 if [ "${IS_TLS}" ]; then
     cp ${CACERT_FILE_PATH} /root
     echo "export OS_CACERT='${CACERT_FILE_PATH}'" >> /root/openrc
