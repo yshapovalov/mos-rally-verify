@@ -12,7 +12,7 @@ echo "sed -i 's|#swift_operator_role = Member|swift_operator_role = SwiftOperato
       git clone https://github.com/openstack/tempest.git /home/rally/tempest
       rally-manage db recreate
       rally deployment create --fromenv --name=tempest
-      rally verify install --source /root/tempest
+      rally verify install --source /home/rally/tempest
       rally verify genconfig
       rally verify showconfig" > /home/install_tempest.sh
 
