@@ -24,7 +24,8 @@ docker run --net host -v /home/:/home/rally -tid -u root $image_id
 docker_id=$(docker ps | grep $image_id | awk '{print $1}')
 
 docker exec -ti $docker_id bash -c "./install-tempest"
-tconf=$(find / -name tempest.conf)
+tconf=$(find /home -name tempest.conf)
+
 sed -i '79i max_template_size = 5440000' $tconf"
 sed -i '80i max_resources_per_stack = 20000' $tconf"
 sed -i '81i max_json_body_size = 10880000' $tconf"
