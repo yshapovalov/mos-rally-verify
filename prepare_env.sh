@@ -24,12 +24,12 @@ docker run --net host -v /home/:/home/rally -tid -u root $image_id
 docker_id=$(docker ps | grep $image_id | awk '{print $1}')
 
 docker exec -ti $docker_id bash -c "./install-tempest"
-docker exec -ti $docker_id bash -c "tconf = $(find / -name tempest.conf)
-docker exec -ti $docker_id  bash -c "sed -i '79i max_template_size = 5440000' $tconf"
-docker exec -ti $docker_id  bash -c "sed -i '80i max_resources_per_stack = 20000' $tconf"
-docker exec -ti $docker_id  bash -c "sed -i '81i max_json_body_size = 10880000' $tconf"
-docker exec -ti $docker_id  bash -c "echo '[volume]' >> $tconf"
-docker exec -ti $docker_id  bash -c "echo 'build_timeout = 300' >> $tconf"
-docker exec -ti $docker_id  bash -c "echo 'test'"
-docker exec -ti $docker_id  bash -c "rally verify showconfig"
-docker exec -ti $docker_id  bash
+docker exec -ti $docker_id bash -c "tconf = $(find / -name tempest.conf)"
+docker exec -ti $docker_id bash -c "sed -i '79i max_template_size = 5440000' $tconf"
+docker exec -ti $docker_id bash -c "sed -i '80i max_resources_per_stack = 20000' $tconf"
+docker exec -ti $docker_id bash -c "sed -i '81i max_json_body_size = 10880000' $tconf"
+docker exec -ti $docker_id bash -c "echo '[volume]' >> $tconf"
+docker exec -ti $docker_id bash -c "echo 'build_timeout = 300' >> $tconf"
+docker exec -ti $docker_id bash -c "echo 'test'"
+docker exec -ti $docker_id bash -c "rally verify showconfig"
+docker exec -ti $docker_id bash
