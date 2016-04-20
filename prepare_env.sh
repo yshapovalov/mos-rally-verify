@@ -20,6 +20,6 @@ chmod +x /root/install_tempest.sh
 apt-get install -y docker.io
 docker pull rallyforge/rally:0.4.0
 image_id=$(docker images | grep 0.4.0| awk '{print $3}')
-docker run --net host -v /var/lib/rally-container-home-dir/:/home/rally -tid -u root $image_id
+docker run --net host -v /root/:/root -tid -u root $image_id
 docker_id=$(docker ps | grep $image_id | awk '{print $1}')
 docker exec -ti $docker_id bash
