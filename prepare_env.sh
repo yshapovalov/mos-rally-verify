@@ -16,11 +16,11 @@ echo "sed -i 's|#swift_operator_role = Member|swift_operator_role = SwiftOperato
       rally verify install --source /home/rally/tempest
       rally verify genconfig
       tconf=$(sudo find / -name tempest.conf)
-      sed -i "79i max_template_size = 5440000" $tconf 
-      sed -i "80i max_resources_per_stack = 20000" $tconf 
-      sed -i "81i max_json_body_size = 10880000" $tconf
-      echo "[volume]" >> $tconf
-      echo "build_timeout = 300" >> $tconf
+      sed -i '79i max_template_size = 5440000' $tconf 
+      sed -i '80i max_resources_per_stack = 20000' $tconf 
+      sed -i '81i max_json_body_size = 10880000' $tconf
+      echo '[volume]' >> $tconf
+      echo 'build_timeout = 300' >> $tconf
       verify showconfig" > /home/install_tempest.sh
 
 chmod +x /home/install_tempest.sh
