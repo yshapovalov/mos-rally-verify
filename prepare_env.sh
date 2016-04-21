@@ -1,6 +1,12 @@
 #!/bin/bash -xe
 cp /root/openrc /home
-sed -i 's|:5000|:5000/v2.0|g' /home/openrc
+V2_FIX=$(cat /home/openrc |grep v2.0| wc -l)
+if [ ${V2_FIX} == '0' ]; then
+    sed -i 's|:5000|:5000/v2.0|g' /home/openrc
+else
+    echo "openrc file already fixed"
+fi
+
 IS_TLS=$(source /root/openrc; keystone catalog --service identity 2>/dev/null | awk '/https/')
 
 if [ "${IS_TLS}" ]; then

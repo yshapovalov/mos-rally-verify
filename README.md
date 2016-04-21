@@ -24,3 +24,8 @@ tempest.api.identity.admin.test_roles.RolesTestJSON.test_list_roles
 Result:
 
 rally verify results --html --output-file tempest-report.html
+__________________________________________________________________
+
+If you need rejoin to your last docker with rally - run rejoin.sh
+If you want delete all dockers and files - run clean.sh
+
