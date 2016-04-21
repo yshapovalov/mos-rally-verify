@@ -7,7 +7,7 @@ else
     echo "openrc file already fixed"
 fi
 
-IS_TLS=$(source /root/openrc; keystone catalog --service identity 2>/dev/null | awk '/https/')
+IS_TLS=$(source /root/openrc; openstack endpoint show identity 2>/dev/null | awk '/https/')
 
 if [ "${IS_TLS}" ]; then
     cp /var/lib/astute/haproxy/public_haproxy.pem /home 
