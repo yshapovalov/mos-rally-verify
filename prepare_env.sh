@@ -1,5 +1,6 @@
 #!/bin/bash -xe
 cp /root/openrc /home
+sed -i 's|:5000|:5000/v2.0|g' /home/openrc
 IS_TLS=$(source /root/openrc; keystone catalog --service identity 2>/dev/null | awk '/https/')
 
 if [ "${IS_TLS}" ]; then
