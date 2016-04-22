@@ -25,6 +25,7 @@ echo "sed -i 's|#swift_operator_role = Member|swift_operator_role = SwiftOperato
 chmod +x /home/install-tempest
 
 apt-get install -y docker.io
+apt-get install -y cgroup-bin
 docker pull rallyforge/rally:0.4.0
 image_id=$(docker images | grep 0.4.0| awk '{print $3}')
 docker run --net host -v /home/:/home/rally -tid -u root $image_id
