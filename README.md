@@ -3,8 +3,7 @@ MOS-RALLY-VERIFY
 Steps:
 
 1. Clone repo to controller
-2. If you have env with rados_gw and ssl run fix_rados_ssl.sh (https://bugs.launchpad.net/fuel/+bug/1549328)
-4. Run prepare_env.sh
+22. Run prepare_env.sh
 
 Done
 
