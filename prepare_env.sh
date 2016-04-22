@@ -1,31 +1,27 @@
 #!/bin/bash -xe
 
 function prepare {
-	cp /root/openrc /home
-	V2_FIX=$(cat /home/openrc |grep v2.0| wc -l)
-	if [ ${V2_FIX} == '0' ]; then
-	    sed -i 's|:5000|:5000/v2.0|g' /home/openrc
-	else
-	    echo "openrc file already fixed"
-	fi
+    cp /root/openrc /home
+    V2_FIX=$(cat /home/openrc |grep v2.0| wc -l)
+    if [ ${V2_FIX} == '0' ]; then
+        sed -i 's|:5000|:5000/v2.0|g' /home/openrc
+    else
+        echo "openrc file already fixed"
+    fi
+    
+    IS_TLS=$(source /root/openrc; openstack endpoint show identity 2>/dev/null | awk '/https/')
+    if [ "${IS_TLS}" ]; then
+        cp /var/lib/astute/haproxy/public_haproxy.pem /home 
+        echo "export OS_CACERT='/home/rally/public_haproxy.pem'" >> /home/openrc
+    fi
 
-	IS_TLS=$(source /root/openrc; openstack endpoint show identity 2>/dev/null | awk '/https/')
-
-	if [ "${IS_TLS}" ]; then
-	    cp /var/lib/astute/haproxy/public_haproxy.pem /home 
-	    echo "export OS_CACERT='/home/rally/public_haproxy.pem'" >> /home/openrc
-	fi
-
-	echo "sed -i 's|#swift_operator_role = Member|swift_operator_role = SwiftOperator|g' /etc/rally/rally.conf
-		source /home/rally/openrc
-		git clone https://github.com/openstack/tempest.git /home/rally/tempest
-		rally-manage db recreate
-		rally deployment create --fromenv --name=tempest
-		rally verify install --source /home/rally/tempest
-		rally verify genconfig" >> /home/install-tempest
-}
-
-function make_exec {
+    echo "sed -i 's|#swift_operator_role = Member|swift_operator_role = SwiftOperator|g' /etc/rally/rally.conf
+          source /home/rally/openrc
+	  git clone https://github.com/openstack/tempest.git /home/rally/tempest
+	  rally-manage db recreate
+	  rally deployment create --fromenv --name=tempest
+	  rally verify install --source /home/rally/tempest
+	  rally verify genconfig" >> /home/install-tempest
     chmod +x /home/install-tempest
 }
 
@@ -39,16 +35,17 @@ function install_d {
 }
 
 function configure_tempest {
-	docker exec -ti $docker_id bash -c "./install-tempest"
-	tconf=$(find /home -name tempest.conf)
-	sed -i '79i max_template_size = 5440000' $tconf
-	sed -i '80i max_resources_per_stack = 20000' $tconf
-	sed -i '81i max_json_body_size = 10880000' $tconf
-	echo '[volume]' >> $tconf
-	echo 'build_timeout = 300' >> $tconf
-	docker exec -ti $docker_id bash -c "rally verify showconfig"
-	docker exec -ti $docker_id bash
+    docker exec -ti $docker_id bash -c "./install-tempest"
+    tconf=$(find /home -name tempest.conf)
+    sed -i '79i max_template_size = 5440000' $tconf
+    sed -i '80i max_resources_per_stack = 20000' $tconf
+    sed -i '81i max_json_body_size = 10880000' $tconf
+    echo '[volume]' >> $tconf
+    echo 'build_timeout = 300' >> $tconf
+    docker exec -ti $docker_id bash -c "rally verify showconfig"
+    docker exec -ti $docker_id bash
 }
+
 prepare
 make_exec
 install_d
