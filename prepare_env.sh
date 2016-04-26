@@ -36,6 +36,7 @@ function install_d {
 
 function configure_tempest {
     docker exec -ti $docker_id bash -c "./install-tempest"
+    docker exec -ti $docker_id bash -c "apt-get install -y vim"
     tconf=$(find /home -name tempest.conf)
     sed -i '79i max_template_size = 5440000' $tconf
     sed -i '80i max_resources_per_stack = 20000' $tconf
