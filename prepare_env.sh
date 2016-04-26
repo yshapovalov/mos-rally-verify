@@ -25,7 +25,7 @@ function prepare {
     chmod +x /home/install-tempest
 }
 
-function install_d {
+function install_docker_and_run {
     apt-get install -y docker.io
     apt-get install -y cgroup-bin
     docker pull rallyforge/rally:0.4.0
@@ -48,6 +48,5 @@ function configure_tempest {
 }
 
 prepare
-make_exec
-install_d
+install_docker_and_run
 configure_tempest
