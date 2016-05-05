@@ -3,7 +3,7 @@ MOS-RALLY-VERIFY
 Steps:
 
 1. Clone repo to controller
-22. Run prepare_env.sh
+2. Run prepare_env.sh
 
 Done
 

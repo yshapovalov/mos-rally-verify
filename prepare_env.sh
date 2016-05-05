@@ -18,6 +18,8 @@ function prepare {
     echo "sed -i 's|#swift_operator_role = Member|swift_operator_role = SwiftOperator|g' /etc/rally/rally.conf
           source /home/rally/openrc
 	  git clone https://github.com/openstack/tempest.git /home/rally/tempest
+          cd /home/rally/tempest
+          git checkout 63cb9a3718f394c9da8e0cc04b170ca2a8196ec2
 	  rally-manage db recreate
 	  rally deployment create --fromenv --name=tempest
 	  rally verify install --source /home/rally/tempest
