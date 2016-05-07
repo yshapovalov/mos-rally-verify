@@ -40,7 +40,7 @@ function configure_tempest {
     docker exec -ti $docker_id bash -c "./install-tempest"
     docker exec -ti $docker_id bash -c "apt-get install -y vim"
     tconf=$(find /home -name tempest.conf)
-    storage_protocol="unknown"
+    storage_protocol="iSCSI"
     check_ceph=$(cat /etc/cinder/cinder.conf |grep RBD-backend | wc -l)
     if [ ${check_ceph} == '1' ]; then
         storage_protocol="ceph"
