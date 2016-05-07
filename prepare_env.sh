@@ -44,6 +44,7 @@ function configure_tempest {
     check_ceph=$(cat /etc/cinder/cinder.conf |grep RBD-backend | wc -l)
     if [ ${check_ceph} == '1' ]; then
         storage_protocol="ceph"
+    fi
     sed -i '79i max_template_size = 5440000' $tconf
     sed -i '80i max_resources_per_stack = 20000' $tconf
     sed -i '81i max_json_body_size = 10880000' $tconf
