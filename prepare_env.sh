@@ -50,7 +50,7 @@ function configure_tempest {
     sed -i '81i max_json_body_size = 10880000' $tconf
     echo '[volume]' >> $tconf
     echo 'build_timeout = 300' >> $tconf
-    echo 'storage_protocol=$storage_protocol' >> $tconf
+    echo 'storage_protocol = $storage_protocol' >> $tconf
     
     docker exec -ti $docker_id bash -c "rally verify showconfig"
     docker exec -ti $docker_id bash
