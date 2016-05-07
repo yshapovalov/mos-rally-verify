@@ -40,11 +40,17 @@ function configure_tempest {
     docker exec -ti $docker_id bash -c "./install-tempest"
     docker exec -ti $docker_id bash -c "apt-get install -y vim"
     tconf=$(find /home -name tempest.conf)
+    storage_protocol="unknown"
+    check_ceph=$(cat /etc/cinder/cinder.conf |grep RBD-backend | wc -l)
+    if [ ${check_ceph} == '1' ]; then
+        storage_protocol="ceph"
     sed -i '79i max_template_size = 5440000' $tconf
     sed -i '80i max_resources_per_stack = 20000' $tconf
     sed -i '81i max_json_body_size = 10880000' $tconf
     echo '[volume]' >> $tconf
     echo 'build_timeout = 300' >> $tconf
+    echo 'storage_protocol=$storage_protocol' >> $tconf
+    
     docker exec -ti $docker_id bash -c "rally verify showconfig"
     docker exec -ti $docker_id bash
 }
