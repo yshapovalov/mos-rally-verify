@@ -27,7 +27,7 @@ function install_docker_and_run {
 }
 
 function configure_tempest {
-    docker exec -ti $docker_id bash -c "./install-tempest.sh"
+    docker exec -ti $docker_id bash -c "./install_tempest.sh"
     docker exec -ti $docker_id bash -c "apt-get install -y vim"
     tconf=$(find /home -name tempest.conf)
     storage_protocol="iSCSI"
