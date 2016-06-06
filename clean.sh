@@ -2,5 +2,6 @@
 image_id=$(docker images | grep latest| awk '{print $3}')
 docker_list=$(docker ps -a| grep $image_id |awk '{print$1}')
 docker rm -f $docker_list
-rm -rf /home/tempest /home/.rally
-rm /home/install-tempest /home/openrc /home/.rally.sqlite
+rm -rf /home/.rally
+rm /home/install_tempest.sh /home/openrc /home/.rally.sqlite /home/run_debug.sh
+rm /home/public_haproxy.pem
