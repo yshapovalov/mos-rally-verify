@@ -16,6 +16,7 @@ function prepare {
         cp /var/lib/astute/haproxy/public_haproxy.pem /home 
         echo "export OS_CACERT='/home/rally/public_haproxy.pem'" >> /home/openrc
     fi
+    ip route add 10.100.1.0/24 via 10.109.3.250
 }
 
 function install_docker_and_run {
