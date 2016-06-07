@@ -28,6 +28,7 @@ function install_docker_and_run {
 }
 
 function configure_tempest {
+    source /home/openrc
     docker exec -ti $docker_id bash -c "./install_tempest.sh"
     docker exec -ti $docker_id bash -c "apt-get install -y vim"
     tconf=$(find /home -name tempest.conf)
@@ -45,6 +46,10 @@ function configure_tempest {
         sed -e $N"s/^/max_resources_per_stack = 20000\n/" -i $tconf
         sed -e $N"s/^/max_template_size = 5440000\n/" -i $tconf
     fi
+    
+    node_compute_count=$(nova hypervisor-list |grep test.domain.local |wc -l)
+    if [ "$node_compute_count" -gt 1]
+        sed -i 's|#live_migration = False|live_migration = True|g' $tconf
 
     echo "[volume]" >> $tconf
     echo "build_timeout = 300" >> $tconf
