@@ -50,6 +50,7 @@ function configure_tempest {
     node_compute_count=$(nova hypervisor-list |grep test.domain.local |wc -l)
     if [ "$node_compute_count" -gt 1]
         sed -i 's|#live_migration = False|live_migration = True|g' $tconf
+    fi
 
     echo "[volume]" >> $tconf
     echo "build_timeout = 300" >> $tconf
