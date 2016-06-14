@@ -38,8 +38,7 @@ function configure_tempest {
         storage_protocol="ceph"
     fi
 
-    if [ $(grep  "\[orchestration\]" $tconf) ]
-    then
+    if [ $(grep  "\[orchestration\]" $tconf) ]; then
         N=$(grep -n "\[orchestration\]" $tconf | cut -d':' -f1)
         N=$(($N+1))
         sed -e $N"s/^/max_json_body_size = 10880000\n/" -i $tconf
@@ -48,7 +47,7 @@ function configure_tempest {
     fi
     
     node_compute_count=$(nova hypervisor-list |grep test.domain.local |wc -l)
-    if [ "$node_compute_count" -gt 1]
+    if [ "$node_compute_count" -gt 1]; then
         sed -i 's|#live_migration = False|live_migration = True|g' $tconf
     fi
 
