@@ -51,13 +51,10 @@ function configure_tempest {
         sed -i 's|#live_migration = False|live_migration = True|g' $tconf
     fi
 
-    if [ $(grep  "\[compute\]" $tconf) ]
-    then
-        N=$(grep -n "\[compute\]" $tconf | cut -d':' -f1)
-        N=$(($N+1))
-        sed -e $N"s/^/volume_device_name = vdc\n/" -i $tconf
-    fi
-
+    N=$(grep -n "\[compute\]" $tconf | cut -d':' -f1)
+    N=$(($N+1))
+    sed -e $N"s/^/volume_device_name = vdc\n/" -i $tconf
+    
     echo "[volume]" >> $tconf
     echo "build_timeout = 300" >> $tconf
     echo "storage_protocol = $storage_protocol" >> $tconf
