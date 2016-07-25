@@ -38,23 +38,25 @@ function configure_tempest {
         storage_protocol="ceph"
     fi
 
-    if [ $(grep  "\[orchestration\]" $tconf) ]; then
-        N=$(grep -n "\[orchestration\]" $tconf | cut -d':' -f1)
-        N=$(($N+1))
-        sed -e $N"s/^/max_json_body_size = 10880000\n/" -i $tconf
-        sed -e $N"s/^/max_resources_per_stack = 20000\n/" -i $tconf
-        sed -e $N"s/^/max_template_size = 5440000\n/" -i $tconf
-    fi
-    
-    node_compute_count=$(nova hypervisor-list |grep test.domain.local |wc -l)
-    if [ "$node_compute_count" -gt 1]; then
-        sed -i 's|#live_migration = False|live_migration = True|g' $tconf
-    fi
+    o_n=$(grep -n "\[orchestration\]" $tconf | cut -d':' -f1)
+    o_n=$(($o_n+1))
+    sed -e $o_n"s/^/max_json_body_size = 10880000\n/" -i  $tconf
+    sed -e $o_n"s/^/max_resources_per_stack = 20000\n/" -i  $tconf
+    sed -e $o_n"s/^/max_template_size = 5440000\n/" -i  $tconf
 
-    N=$(grep -n "\[compute\]" $tconf | cut -d':' -f1)
-    N=$(($N+1))
-    sed -e $N"s/^/volume_device_name = vdc\n/" -i $tconf
-    
+    c_n=$(grep -n "\[compute\]" $tconf | cut -d':' -f1)
+    c_n=$(($c_n+1))
+    sed -e $c_n"s/^/volume_device_name = vdc\n/" -i $tconf
+    sed -e $c_n"s/^/min_microversion = 2.1\n/" -i $tconf
+    sed -e $c_n"s/^/max_microversion = latest\n/" -i $tconf
+    sed -e $c_n"s/^/min_compute_nodes = 2\n/" -i $tconf
+
+    c_f_n=$(grep -n "\[compute-feature-enabled\]" $tconf | cut -d':' -f1)
+    c_f_n=$(($c_f_n+1))
+    sed -e $c_f_n"s/^/block_migration_for_live_migration = True\n/" -i $tconf
+
+    sed -i "s|live_migration = False|live_migration = True|g" $tconf
+    sed -i "s|attach_encrypted_volume = False|attach_encrypted_volume = True|g" $tconf 
     echo "[volume]" >> $tconf
     echo "build_timeout = 300" >> $tconf
     echo "storage_protocol = $storage_protocol" >> $tconf
