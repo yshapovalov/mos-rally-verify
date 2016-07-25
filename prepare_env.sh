@@ -50,10 +50,12 @@ function configure_tempest {
     sed -e $c_n"s/^/min_microversion = 2.1\n/" -i $tconf
     sed -e $c_n"s/^/max_microversion = latest\n/" -i $tconf
     sed -e $c_n"s/^/min_compute_nodes = 2\n/" -i $tconf
-
-    c_f_n=$(grep -n "\[compute-feature-enabled\]" $tconf | cut -d':' -f1)
-    c_f_n=$(($c_f_n+1))
-    sed -e $c_f_n"s/^/block_migration_for_live_migration = True\n/" -i $tconf
+    
+    if {${storage_protocol} == 'iSCSI'}; then
+        c_f_n=$(grep -n "\[compute-feature-enabled\]" $tconf | cut -d':' -f1)
+        c_f_n=$(($c_f_n+1))
+        sed -e $c_f_n"s/^/block_migration_for_live_migration = True\n/" -i $tconf
+    fi
 
     sed -i "s|live_migration = False|live_migration = True|g" $tconf
     sed -i "s|attach_encrypted_volume = False|attach_encrypted_volume = True|g" $tconf 
