@@ -21,8 +21,8 @@ function prepare {
 function install_docker_and_run {
     apt-get install -y docker.io
     apt-get install -y cgroup-bin
-    docker pull rallyforge/rally:latest
-    image_id=$(docker images | grep latest| awk '{print $3}')
+    docker pull rallyforge/rally:0.5.0
+    image_id=$(docker images | grep 0.5.0| awk '{print $3}')
     docker run --net host -v /home/:/home/rally -tid -u root $image_id
     docker_id=$(docker ps | grep $image_id | awk '{print $1}'| head -1)
 }
